@@ -23,7 +23,7 @@ public class Main {
 
             int timeUnit = 100;
 
-            int timeQuantum = 500;
+            int timeQuantum = 5000;
 
             ThreadCpu.timeQuantum = timeQuantum;
 

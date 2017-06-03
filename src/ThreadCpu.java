@@ -34,10 +34,10 @@ public class ThreadCpu implements Runnable {
                 } catch(Exception e) {}
 
 //                System.out.println("Executou por um segundo");
-                System.out.printf("Processo com id: %d exec por um segundo\n", running.id);
+                System.out.printf("Processo com id: %d exec por um segundo cputime:[%d]\n", running.id, running.cpuTime);
 
                 running.cpuTime--;
-                thisTimeQuantum--;
+                thisTimeQuantum -= 1000;
             }
 
             if(running.cpuTime < 0) {
