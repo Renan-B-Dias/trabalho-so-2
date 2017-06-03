@@ -3,13 +3,15 @@
  */
 public class MyProcess {
 
-    private static int idCount = 0;
-
     public int id;
-    public int runTime = 50;
+    public int priority;
+    public int cpuTime;
 
-    public MyProcess() {
-        this.id = idCount++;
+    public MyProcess(int id, int priority, int timeUnit) {
+        this.id = id;
+        this.priority = priority;
+
+        this.cpuTime = (2 * (id+1) * timeUnit);
     }
 
 }

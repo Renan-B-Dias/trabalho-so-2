@@ -8,9 +8,13 @@ public class MyCpu {
 
     private LinkedList<MyProcess> FIFOQueue = new LinkedList<>();
 
-    private Semaphore empty = new Semaphore(1);
-    private Semaphore full = new Semaphore(0);
+    public Semaphore empty;
+    public Semaphore full;
 
+    public MyCpu(int processQuantity) {
+        empty = new Semaphore(processQuantity);
+        full = new Semaphore(0);
+    }
 
     public void insertProcess(MyProcess process) {
         try {
@@ -18,7 +22,9 @@ public class MyCpu {
         } catch(Exception e) {
 
         }
+
         FIFOQueue.addFirst(process);
+
         try {
             full.release();
         } catch (Exception e) { }
@@ -29,12 +35,14 @@ public class MyCpu {
             full.acquire();
         } catch(Exception e) {}
 
+        MyProcess ret = FIFOQueue.removeLast();
+
         empty.release();
-        return FIFOQueue.removeLast();
+        return ret;
     }
 
-    public boolean queueIsEmpry() {
-        return FIFOQueue.isEmpty();
-    }
+//    public boolean queueIsEmpry() {
+//        return FIFOQueue.isEmpty();
+//    }
 
 }
