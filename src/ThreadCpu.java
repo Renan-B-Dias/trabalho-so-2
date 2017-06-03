@@ -17,12 +17,9 @@ public class ThreadCpu implements Runnable {
     @Override
     public void run() {
 
-//        cpu.removeProcess();
-//        System.out.println(new Date() + " Process removed");
-
         int i = 4;
 
-        while(i-- > 0) {
+        while(i > 0) {
             running = cpu.removeProcess();
 
             int thisTimeQuantum = timeQuantum;
@@ -30,23 +27,24 @@ public class ThreadCpu implements Runnable {
             while(thisTimeQuantum > 0) {
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch(Exception e) {}
 
-//                System.out.println("Executou por um segundo");
+                running.cpuTime -= 100;
+                thisTimeQuantum -= 100;
+
                 System.out.printf("Processo com id: %d exec por um segundo cputime:[%d]\n", running.id, running.cpuTime);
 
-                running.cpuTime--;
-                thisTimeQuantum -= 1000;
+                if(running.cpuTime <= 0)
+                    break;
             }
 
-            if(running.cpuTime < 0) {
+            if(running.cpuTime <= 0) {
                 // Process ended...
                 running = null;
                 i--;
-            } else {
+            } else
                 cpu.insertProcess(running);
-            }
         }
 
     }

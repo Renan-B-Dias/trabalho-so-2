@@ -22,8 +22,7 @@ public class Main {
             int prio4 = 57;
 
             int timeUnit = 100;
-
-            int timeQuantum = 5000;
+            int timeQuantum = 500;
 
             ThreadCpu.timeQuantum = timeQuantum;
 

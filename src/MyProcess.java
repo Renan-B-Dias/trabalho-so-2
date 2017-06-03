@@ -1,7 +1,7 @@
 /**
  * Created by yellow-umbrella on 02/06/17.
  */
-public class MyProcess {
+public class MyProcess implements Comparable<MyProcess> {
 
     public int id;
     public int priority;
@@ -14,4 +14,12 @@ public class MyProcess {
         this.cpuTime = (2 * (id+1) * timeUnit);
     }
 
+    @Override
+    public int compareTo(MyProcess myProcess) {
+        if(this.priority > myProcess.priority)
+            return -1;
+        else if(this.priority < myProcess.priority)
+            return 1;
+        return 0;
+    }
 }
