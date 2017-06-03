@@ -32,6 +32,7 @@ public class ThreadCpu implements Runnable {
 
                 running.cpuTime -= 100;
                 thisTimeQuantum -= 100;
+                running.priority--;
 
                 System.out.printf("Processo com id: %d exec por um segundo cputime:[%d]\n", running.id, running.cpuTime);
 

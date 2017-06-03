@@ -15,10 +15,10 @@ public class MyProcess implements Comparable<MyProcess> {
     }
 
     @Override
-    public int compareTo(MyProcess myProcess) {
-        if(this.priority > myProcess.priority)
+    public int compareTo(MyProcess process) {
+        if(this.priority > process.priority)
             return -1;
-        else if(this.priority < myProcess.priority)
+        else if(this.priority < process.priority)
             return 1;
         return 0;
     }

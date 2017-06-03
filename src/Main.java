@@ -36,7 +36,7 @@ public class Main {
         MyCpu cpu = new MyCpu(processes.length);
 
         Thread thread = new Thread(new ThreadCpu(cpu));     // Thread da Cpu
-//        thread.setName("CPU THREAD");
+        thread.setName("CPU THREAD");
         thread.start();
 
 

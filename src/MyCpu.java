@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -6,7 +7,8 @@ import java.util.concurrent.Semaphore;
  */
 public class MyCpu {
 
-    private LinkedList<MyProcess> FIFOQueue = new LinkedList<>();
+//    private LinkedList<MyProcess> FIFOQueue = new LinkedList<>();
+    private PriorityQueue<MyProcess> FIFOQueue;
 
     public Semaphore empty;
     public Semaphore full;
@@ -14,6 +16,7 @@ public class MyCpu {
     public MyCpu(int processQuantity) {
         empty = new Semaphore(processQuantity);
         full = new Semaphore(0);
+        FIFOQueue = new PriorityQueue<MyProcess>();
     }
 
     public void insertProcess(MyProcess process) {
@@ -23,7 +26,7 @@ public class MyCpu {
 
         }
 
-        FIFOQueue.addFirst(process);
+        FIFOQueue.add(process);
 
         try {
             full.release();
@@ -35,7 +38,7 @@ public class MyCpu {
             full.acquire();
         } catch(Exception e) {}
 
-        MyProcess ret = FIFOQueue.removeLast();
+        MyProcess ret = FIFOQueue.remove();
 
         empty.release();
         return ret;
