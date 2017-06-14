@@ -1,3 +1,7 @@
+package cpu;
+
+import process.MyProcess;
+
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.concurrent.Semaphore;

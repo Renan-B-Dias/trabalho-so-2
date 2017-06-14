@@ -1,3 +1,8 @@
+import cpu.MyCpu;
+import cpu.ThreadCpu;
+import process.MyProcess;
+import process.ThreadProcess;
+
 import java.util.concurrent.Semaphore;
 
 /**
@@ -6,7 +11,9 @@ import java.util.concurrent.Semaphore;
 public class Main {
     public static void main(String[] args) {
 
-        MyProcess processes[];
+        MyCpu cpu = new MyCpu(4);
+
+        Thread processes[];
 
         if(true) {
             int processId1 = 0;
@@ -26,23 +33,27 @@ public class Main {
 
             ThreadCpu.timeQuantum = timeQuantum;
 
-            processes = new MyProcess[4];
-            processes[0] = new MyProcess(processId1, prio1, timeUnit);
-            processes[1] = new MyProcess(processId2, prio2, timeUnit);
-            processes[2] = new MyProcess(processId3, prio3, timeUnit);
-            processes[3] = new MyProcess(processId4, prio4, timeUnit);
+            ThreadProcess.interSeconds = 300;
+
+            processes = new Thread[] {
+                    new Thread(new ThreadProcess(processId1, prio1, timeUnit, cpu)),
+                    new Thread(new ThreadProcess(processId2, prio2, timeUnit, cpu)),
+                    new Thread(new ThreadProcess(processId3, prio3, timeUnit, cpu)),
+                    new Thread(new ThreadProcess(processId4, prio4, timeUnit, cpu))
+            };
         }
 
-        MyCpu cpu = new MyCpu(processes.length);
+        System.out.println("Início da simulação");
 
-        Thread thread = new Thread(new ThreadCpu(cpu));     // Thread da Cpu
-        thread.setName("CPU THREAD");
-        thread.start();
+        Thread cpuThread = new Thread(new ThreadCpu(cpu));     // Thread da Cpu
+        cpuThread.setName("CPU THREAD");
+        cpuThread.start();
 
+        for(int i = 0; i < processes.length; i++) {
+            processes[i].setName("Process number " + i);
+        }
 
-        cpu.insertProcess(processes[0]);
-        cpu.insertProcess(processes[1]);
-        cpu.insertProcess(processes[2]);
-        cpu.insertProcess(processes[3]);
+        for(Thread x: processes)
+            x.start();
     }
 }
