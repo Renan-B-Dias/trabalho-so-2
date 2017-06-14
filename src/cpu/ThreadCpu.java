@@ -2,8 +2,6 @@ package cpu;
 
 import process.MyProcess;
 
-import java.util.Date;
-
 /**
  * Created by yellow-umbrella on 02/06/17.
  */
@@ -11,17 +9,19 @@ public class ThreadCpu implements Runnable {
 
     private MyCpu cpu;
     public MyProcess running;
+    private int processAmount;
 
     public static int timeQuantum;
 
-    public ThreadCpu(MyCpu cpu) {
+    public ThreadCpu(MyCpu cpu, int processAmount) {
         this.cpu = cpu;
+        this.processAmount = processAmount;
     }
 
     @Override
     public void run() {
 
-        int i = 4;
+        int i = processAmount;
 
         while(i > 0) {
             running = cpu.removeProcess();
