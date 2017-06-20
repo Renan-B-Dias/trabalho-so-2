@@ -2,6 +2,8 @@ package process;
 
 import cpu.MyCpu;
 
+import java.util.Date;
+
 /**
  * Created by yellow-umbrella on 11/06/17.
  */
@@ -22,7 +24,10 @@ public class ThreadProcess implements Runnable {
 			Thread.sleep(this.process.id * interSeconds);
 		} catch(Exception e) {}
 
-		System.out.println("A thread " + this.process.id + " chegou a fila de prontos");
+		this.process.state = MyProcess.State.pronto;
+		System.out.println(new Date() + " A thread " + this.process.id + " chegou a fila de prontos [" +
+				this.process.id + ": " + this.process.state + ", " + this.process.priority + ", " +
+				this.process.cpuTime + "]");
 		cpu.insertProcess(this.process);
 	}
 

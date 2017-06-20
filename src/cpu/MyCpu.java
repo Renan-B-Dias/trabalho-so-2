@@ -2,16 +2,18 @@ package cpu;
 
 import process.MyProcess;
 
-import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.concurrent.Semaphore;
 
 /**
  * Created by yellow-umbrella on 02/06/17.
+ * Classe que define uma Cpu com uma filade prontos(Por prioridade).
  */
 public class MyCpu {
 
-//    private LinkedList<MyProcess> FIFOQueue = new LinkedList<>();
+    /**
+    * Fila de processos em pronto
+    */
     private PriorityQueue<MyProcess> FIFOQueue;
 
     public Semaphore empty;
@@ -48,8 +50,20 @@ public class MyCpu {
         return ret;
     }
 
+    public int prioNext() {
+        try {
+            return FIFOQueue.peek().priority;
+        } catch(Exception e) {
+            return 0;
+        }
+    }
+//
 //    public boolean queueIsEmpry() {
-//        return FIFOQueue.isEmpty();
+//        try {
+//            return FIFOQueue.isEmpty();
+//        } catch(Exception e) {
+//            return true;
+//        }
 //    }
 
 }

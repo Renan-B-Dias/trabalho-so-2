@@ -3,6 +3,7 @@ import cpu.ThreadCpu;
 import process.MyProcess;
 import process.ThreadProcess;
 
+import java.util.Date;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -38,36 +39,7 @@ public class Main {
 
         } while(argsIndex < args.length);   // Or f > qtdProc
 
-        // Debug
-//        if(true) {
-//            int processId1 = 0;
-//            int prio1 = 50;
-//
-//            int processId2 = 1;
-//            int prio2 = 52;
-//
-//            int processId3 = 2;
-//            int prio3 = 54;
-//
-//            int processId4 = 3;
-//            int prio4 = 57;
-//
-//            int timeUnit = 100;
-//            int timeQuantum = 500;
-//
-//            ThreadCpu.timeQuantum = timeQuantum;
-//
-//            ThreadProcess.interSeconds = 300;
-//
-//            processes = new Thread[] {
-//                    new Thread(new ThreadProcess(processId1, prio1, timeUnit, cpu)),
-//                    new Thread(new ThreadProcess(processId2, prio2, timeUnit, cpu)),
-//                    new Thread(new ThreadProcess(processId3, prio3, timeUnit, cpu)),
-//                    new Thread(new ThreadProcess(processId4, prio4, timeUnit, cpu))
-//            };
-//        }
-
-        System.out.println("Início da simulação");
+        System.out.println(new Date() + " Início da simulação");
 
         Thread cpuThread = new Thread(new ThreadCpu(cpu, qtdProc));     // Thread da Cpu
         cpuThread.setName("CPU THREAD");

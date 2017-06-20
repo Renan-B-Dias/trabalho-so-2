@@ -2,6 +2,8 @@ package cpu;
 
 import process.MyProcess;
 
+import java.util.Date;
+
 /**
  * Created by yellow-umbrella on 02/06/17.
  */
@@ -16,6 +18,7 @@ public class ThreadCpu implements Runnable {
     public ThreadCpu(MyCpu cpu, int processAmount) {
         this.cpu = cpu;
         this.processAmount = processAmount;
+        this.running = null;
     }
 
     @Override
@@ -24,9 +27,14 @@ public class ThreadCpu implements Runnable {
         int i = processAmount;
 
         while(i > 0) {
-            running = cpu.removeProcess();
 
-            System.out.println("A thread " + running.id + " está executando");
+            if(running == null) {
+                running = cpu.removeProcess();
+                running.state = MyProcess.State.executando;
+                System.out.println(new Date() + " A thread " +
+                        running.id + " está executando [" + running.id + ": " +
+                        running.state + ", " + running.priority + ", " + running.cpuTime + "]");
+            }
 
             int thisTimeQuantum = timeQuantum;
 
@@ -40,23 +48,28 @@ public class ThreadCpu implements Runnable {
                 thisTimeQuantum -= 100;
                 running.priority--;
 
-//                System.out.printf("Processo com id: %d exec por um segundo cputime:[%d]\n", running.id, running.cpuTime);
-
                 if(running.cpuTime <= 0)
                     break;
             }
 
             if(running.cpuTime <= 0) {
                 // Process ended...
-                System.out.println("A thread " + running.id + " esgotou seu tempo total de processamento");
+                running.state = MyProcess.State.terminado;
+                System.out.println(new Date() + " A thread " + running.id + " esgotou seu tempo total de processamento [" + running.id + ": " +
+                                running.state + ", " + running.priority + ", " + running.cpuTime + "]");
                 running = null;
                 i--;
-            } else {
-                cpu.insertProcess(running);
-                System.out.println("A thread " + running.id + " voltou à fila de prontos");
+            } else if (running.cpuTime >= 0) {
+                if(cpu.prioNext() > running.priority) {
+                    running.state = MyProcess.State.pronto;
+                    cpu.insertProcess(running);
+                    System.out.println(new Date() + " A thread " + running.id + " voltou à fila de prontos [" + running.id + ": " +
+                            running.state + ", " + running.priority + ", " + running.cpuTime + "]");
+                    running = null;
+                }
             }
         }
 
-        System.out.println("Término da simulação");
+        System.out.println(new Date() + " Término da simulação");
     }
 }
